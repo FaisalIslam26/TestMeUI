@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:testme/screens/signup.dart';
 import 'package:testme/screens/userprofile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SigninScreen extends StatefulWidget {
   static const String path = "signinScreen";

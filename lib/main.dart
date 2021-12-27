@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:testme/screens/addnewuser.dart';
 import 'package:testme/screens/signin.dart';
 import 'package:testme/screens/signup.dart';
 import 'package:testme/screens/userlist.dart';
 import 'package:testme/screens/userprofile.dart';
 import 'package:testme/screens/welcome.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:testme/screens/signin.dart';
 import 'package:testme/screens/signup.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class welcomeScreen extends StatelessWidget {
   static const String path = "welcomeScreen";
