@@ -14,6 +14,24 @@ class SigninScreen extends StatefulWidget {
 
 class _SigninScreenState extends State<SigninScreen> {
   bool ishiddenPassword = true;
+  bool isLoading = false;
+  Future signup() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: emailController.text, password: passwordControlller.text);
+      if (userCredential.user != null) {
+        Route route = MaterialPageRoute(builder: (ctx) => UserProfileScreen());
+        Navigator.push(context, route);
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordControlller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +72,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         Container(
                           color: Color(0xffF2F2F7),
                           child: TextFormField(
+                            controller: emailController,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(6),
@@ -69,6 +88,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         Container(
                           color: Color(0xffF2F2F7),
                           child: TextFormField(
+                            controller: passwordControlller,
                             obscureText: ishiddenPassword,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
