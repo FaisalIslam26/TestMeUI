@@ -136,6 +136,7 @@ class CustomUserlist extends StatelessWidget {
                   trailing: ElevatedButton(
                     onPressed: () {
                       showDialog(
+                        barrierDismissible: false,
                         context: context,
                         builder: (context) => AlertDialog(
                           title: Text("Are you sure?"),
