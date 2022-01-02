@@ -24,7 +24,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     //   height: double.infinity,
     //   color: Colors.green,
     // ),
-    CustomUserlist(),
+    UserList(),
+
     // Container(
     //   width: double.infinity,
     //   height: double.infinity,

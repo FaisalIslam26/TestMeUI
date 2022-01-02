@@ -23,7 +23,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  int _value = 1;
+  String _value = "Male";
   var imagePath;
   var imageURL;
 
@@ -43,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           nameController.text,
           emailController.text,
           mobileController.text,
-          _value.toInt(),
+          _value.toString(),
           imageURL.toString(),
         );
 
@@ -143,8 +143,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     backgroundImage: FileImage(imagePath))
                                 : CircleAvatar(
                                     radius: 36,
-                                    backgroundImage:
-                                        AssetImage("assets/images/PP.jpg")),
+                                    backgroundImage: AssetImage(
+                                        "assets/images/img_avatar.png")),
                             Transform.translate(
                               offset: Offset(-20, 45),
                               child: ElevatedButton(
@@ -241,11 +241,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Row(
                               children: [
                                 Radio(
-                                  value: 1,
+                                  value: "Male",
                                   groupValue: _value,
                                   onChanged: (value) {
                                     setState(() {
-                                      _value = 1;
+                                      _value = "Male";
                                     });
                                   },
                                 ),
@@ -254,11 +254,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                                 Text("Male"),
                                 Radio(
-                                  value: 2,
+                                  value: "Female",
                                   groupValue: _value,
                                   onChanged: (value) {
                                     setState(() {
-                                      _value = 2;
+                                      _value = "Female";
                                     });
                                   },
                                 ),

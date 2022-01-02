@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         SignUpScreen.path: (ctx) => SignUpScreen(),
         UserProfileScreen.path: (ctx) => UserProfileScreen(),
         UserList.path: (ctx) => UserList(),
+        AddNewUsersScreen.path: (ctx) => AddNewUsersScreen(),
       },
     );
   }
