@@ -10,6 +10,7 @@ import 'package:testme/screens/userlist.dart';
 import 'package:testme/screens/welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:testme/widgets/customimagedialog.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const String path = "SignUpScreen";
@@ -64,9 +65,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
 
-  Future pickedImage() async {
+  Future galleryimage() async {
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        imagePath = File(image.path);
+      });
+      uploadProfileImage();
+    }
+  }
+
+  Future cameraimage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
       setState(() {
         imagePath = File(image.path);
@@ -144,7 +156,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               offset: Offset(-20, 45),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  pickedImage();
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          CustomImagePickDialog(
+                                            cameraimage: cameraimage,
+                                            galleryimage: galleryimage,
+                                          ));
+
+                                  // pickedImage();
                                 },
                                 child: Icon(
                                   Icons.camera_alt,
