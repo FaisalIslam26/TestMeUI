@@ -44,28 +44,30 @@ class welcomeScreen extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 100),
-                child: Container(
-                  // width: 229,
-                  // height: 32,
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 6),
-                    child: Center(
-                      child: Text(
-                        "USER AUTHENTICA",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 19,
-                          fontWeight: FontWeight.w500,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    // width: 229,
+                    // height: 32,
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 6),
+                      child: Center(
+                        child: Text(
+                          "USER AUTHENTICA",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 19,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
               SizedBox(
                 height: 30,

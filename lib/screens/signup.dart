@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:testme/screens/profile.dart';
 import 'package:testme/screens/signin.dart';
-import 'package:testme/screens/userprofile.dart';
+import 'package:testme/screens/bottomnavlayout.dart';
+import 'package:testme/screens/userlist.dart';
 import 'package:testme/screens/welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,6 +25,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  bool ishiddenPassword = true;
   String _value = "Male";
   var imagePath;
   var imageURL;
@@ -34,6 +37,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isLoading = false;
 
   Future signup() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -47,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           imageURL.toString(),
         );
 
-        Route route = MaterialPageRoute(builder: (ctx) => UserProfileScreen());
+        Route route = MaterialPageRoute(builder: (ctx) => BottomNavLayout());
         Navigator.push(context, route);
       }
     } catch (e) {
@@ -68,17 +74,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       uploadProfileImage();
     }
   }
-  // Future pickedImage() async {
-  //   final ImagePicker _picker = ImagePicker();
-  //   final XFile? image = await _picker.pickImage(
-  //       source: ImageSource.camera, preferredCameraDevice: CameraDevice.front);
-  //   if (image != null) {
-  //     setState(() {
-  //       imagePath = File(image.path);
-  //     });
-  //     uploadProfileImage();
-  //   }
-  // }
 
   Future uploadProfileImage() async {
     String image = imagePath.toString();
@@ -207,7 +202,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               hintText: "Password",
-                              suffixIcon: Icon(Icons.visibility),
+                              suffixIcon: InkWell(
+                                onTap: _togglePasswordView,
+                                child: Icon(ishiddenPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
+                              ),
                             ),
                           ),
                         ),
@@ -271,30 +271,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Container(
-                          width: double.infinity,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: TextButton(
-                            onPressed: () {
-                              signup();
-                            },
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
+                      isLoading
+                          ? CircularProgressIndicator()
+                          : Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Container(
+                                width: double.infinity,
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    // Navigator.pushNamed(context, UserList.path);
+                                    signup();
+                                  },
+                                  child: Text(
+                                    "Sign Up",
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -330,6 +333,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  void _togglePasswordView() {
+    // if (ishiddenPassword == true) {
+    //   ishiddenPassword = false;
+    // } else {
+    //   ishiddenPassword = true;
+    // }
+    setState(() {
+      ishiddenPassword = !ishiddenPassword;
+    });
   }
 }
 

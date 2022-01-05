@@ -5,8 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:testme/screens/profile.dart';
 import 'package:testme/screens/userlist.dart';
-import 'package:testme/screens/userprofile.dart';
+import 'package:testme/screens/bottomnavlayout.dart';
 
 class AddNewUsersScreen extends StatefulWidget {
   static const String path = "AddNewUsersScreen";
@@ -17,6 +18,7 @@ class AddNewUsersScreen extends StatefulWidget {
 }
 
 class _AddNewUsersScreenState extends State<AddNewUsersScreen> {
+  bool ishiddenPassword = true;
   String _value = "Male";
   var imagePath;
   var imageURL;
@@ -41,7 +43,7 @@ class _AddNewUsersScreenState extends State<AddNewUsersScreen> {
           imageURL.toString(),
         );
 
-        Route route = MaterialPageRoute(builder: (ctx) => UserProfileScreen());
+        Route route = MaterialPageRoute(builder: (ctx) => Profile());
         Navigator.push(context, route);
       }
     } catch (e) {
@@ -136,8 +138,10 @@ class _AddNewUsersScreenState extends State<AddNewUsersScreen> {
                             radius: 36, backgroundImage: FileImage(imagePath))
                         : CircleAvatar(
                             radius: 36,
-                            backgroundImage:
-                                AssetImage("assets/images/img_avatar.png")),
+                            backgroundImage: AssetImage(
+                              "assets/images/img_avatar.png",
+                            ),
+                          ),
                     Transform.translate(
                       offset: Offset(-20, 45),
                       child: ElevatedButton(
@@ -183,7 +187,9 @@ class _AddNewUsersScreenState extends State<AddNewUsersScreen> {
                   controller: passwordControlller,
                   decoration: InputDecoration(
                     hintText: "Password",
-                    suffixIcon: Icon(Icons.visibility),
+                    suffixIcon: Icon(ishiddenPassword
+                        ? Icons.visibility
+                        : Icons.visibility_off),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -293,6 +299,16 @@ class _AddNewUsersScreenState extends State<AddNewUsersScreen> {
             ),
           ),
         ));
+  }
+
+  void _togglePasswordView() {
+    // if (ishiddenPassword == true) {
+    //   ishiddenPassword = false;
+    // } else {
+    //   ishiddenPassword = true;
+    // }
+
+    ishiddenPassword = !ishiddenPassword;
   }
 }
 

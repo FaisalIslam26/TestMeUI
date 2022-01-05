@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:testme/screens/addnewuser.dart';
+import 'package:testme/screens/profile.dart';
 import 'package:testme/screens/signin.dart';
 import 'package:testme/screens/signup.dart';
 import 'package:testme/screens/userlist.dart';
-import 'package:testme/screens/userprofile.dart';
+import 'package:testme/screens/bottomnavlayout.dart';
 import 'package:testme/screens/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -27,9 +28,10 @@ class MyApp extends StatelessWidget {
         welcomeScreen.path: (ctx) => welcomeScreen(),
         SigninScreen.path: (ctx) => SigninScreen(),
         SignUpScreen.path: (ctx) => SignUpScreen(),
-        UserProfileScreen.path: (ctx) => UserProfileScreen(),
         UserList.path: (ctx) => UserList(),
         AddNewUsersScreen.path: (ctx) => AddNewUsersScreen(),
+        Profile.path: (ctx) => Profile(),
+        BottomNavLayout.path: (ctx) => BottomNavLayout(),
       },
     );
   }
