@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+
+import 'package:testme/screens/profile.dart';
 import 'package:testme/screens/signup.dart';
-import 'package:testme/screens/userprofile.dart';
+import 'package:testme/screens/bottomnavlayout.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -15,22 +16,28 @@ class SigninScreen extends StatefulWidget {
 class _SigninScreenState extends State<SigninScreen> {
   bool ishiddenPassword = true;
   bool isLoading = false;
-  Future signup() async {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordControlller = TextEditingController();
+
+  Future signIn() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: emailController.text, password: passwordControlller.text);
       if (userCredential.user != null) {
-        Route route = MaterialPageRoute(builder: (ctx) => UserProfileScreen());
+        Route route = MaterialPageRoute(builder: (ctx) => BottomNavLayout());
         Navigator.push(context, route);
       }
     } catch (e) {
       print("Error: $e");
     }
+    setState(() {
+      isLoading = false;
+    });
   }
-
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordControlller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +106,9 @@ class _SigninScreenState extends State<SigninScreen> {
 
                               suffixIcon: InkWell(
                                 onTap: _togglePasswordView,
-                                child: Icon(Icons.visibility),
+                                child: Icon(ishiddenPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
                               ),
                             ),
                           ),
@@ -110,33 +119,31 @@ class _SigninScreenState extends State<SigninScreen> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
-                              child: Container(
-                                // margin: EdgeInsets.symmetric(horizontal: ),
-                                width: 450,
-                                height: 48,
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: TextButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, UserProfileScreen.path);
-                                  },
-                                  child: Text(
-                                    "Login",
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white,
+                            isLoading
+                                ? CircularProgressIndicator()
+                                : Container(
+                                    // margin: EdgeInsets.symmetric(horizontal: ),
+                                    width: 450,
+                                    height: 48,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: TextButton(
+                                      onPressed: () {
+                                        signIn();
+                                        // Navigator.pushNamed(context, Profile.path);
+                                      },
+                                      child: Text(
+                                        "Login",
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 140),

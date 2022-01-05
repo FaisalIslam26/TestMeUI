@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:testme/screens/addnewuser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:testme/widgets/customalert.dart';
 
 class UserList extends StatefulWidget {
   static const String path = "/UserList";
@@ -11,7 +12,14 @@ class UserList extends StatefulWidget {
 }
 
 class _UserListState extends State<UserList> {
-  List _users = [];
+  int count = 0;
+  _onCountPressed() {
+    setState(() {
+      count++;
+    });
+  }
+
+  List<QueryDocumentSnapshot<Object?>> _users = [];
 
   Future getUsers() async {
     CollectionReference instance =
@@ -32,6 +40,11 @@ class _UserListState extends State<UserList> {
   void initState() {
     getUsers();
     super.initState();
+  }
+
+  Future removeUser(String id) async {
+    await FirebaseFirestore.instance.collection('users').doc(id).delete();
+    getUsers();
   }
 
   @override
@@ -149,43 +162,14 @@ class _UserListState extends State<UserList> {
                       trailing: ElevatedButton(
                         onPressed: () {
                           showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text("Are you sure?"),
-                              content: Container(
-                                height: 188,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Divider(
-                                      thickness: 1,
-                                      color: Colors.black,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              actionsAlignment: MainAxisAlignment.spaceBetween,
-                              actions: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.grey,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("Cancel"),
-                                ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.redAccent,
-                                  ),
-                                  onPressed: () {},
-                                  child: Text("Confirm"),
-                                ),
-                              ],
-                            ),
-                          );
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return CustomAlertDialog(
+                                  ontap: removeUser,
+                                  id: _users[index].id,
+                                );
+                              });
                         },
                         child: Text(
                           "Remove",
